@@ -1,9 +1,3 @@
-//  Create a Task model:
-//  • { title, description, status, createdAt }.
-// • Implement endpoints:
-// • POST /tasks – create task
-//  • GET /tasks – list tasks
-// • Test using Postman / Thunder Client.
 
 const express = require('express');
 const { default: mongoose } = require('mongoose');
@@ -64,21 +58,6 @@ app.get('/tasks/:id', async (req, res) => {
     }
 });
 
-
-// app.put('/tasks/:id', async (req, res) => {
-//     try {
-//         const { title, description, status } = req.body;
-//         const updatedTask = await Task.findByIdAndUpdate(
-//             req.params.id,
-//             { title, description, status },
-//             { new: true, runValidators: true }
-//         );
-//         if (!updatedTask) return res.status(404).json({ error: 'Task not found' });
-//         res.json(updatedTask);
-//     } catch (error) {
-//         res.status(400).json({ error: 'Failed to update task' });
-//     }
-// });
 
 
 app.put('/tasks/:id', async (req, res) => {

@@ -17,7 +17,7 @@ function App() {
   const createTask = async (e) => {
     e.preventDefault();
     if (editId) {
-      await axios.put('http://localhost:3000/tasks', form);
+      await axios.put(`http://localhost:3000/tasks/${editId}`, form);
       setEditId(null);
     } else {
       await axios.post('http://localhost:3000/tasks', form);
