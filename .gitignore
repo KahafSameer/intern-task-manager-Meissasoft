@@ -1,0 +1,4 @@
+node_modules
+day3-plan/task-manager-ui/build
+day3-plan/task-manager-ui/node_modules
+day3-plan/task-manager-ui/.env
