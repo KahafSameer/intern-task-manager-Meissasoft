@@ -4,12 +4,13 @@
 // • POST /tasks – create task
 //  • GET /tasks – list tasks
 // • Test using Postman / Thunder Client.
-const cors = require('cors');
-app.use(cors());
+
 const express = require('express');
 const { default: mongoose } = require('mongoose');
 const app = express();
 const port = 3000;
+const cors = require('cors');
+app.use(cors());
 app.use(express.json());
 
 mongoose.connect('mongodb://localhost:27017/taskdb')
@@ -24,10 +25,10 @@ const taskSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+
 const Task = mongoose.model('Task', taskSchema);
 
 
-let tasks = [];
 app.post('/tasks', async (req, res) => {
     try {
         const { title, description, status } = req.body;
@@ -40,6 +41,8 @@ app.post('/tasks', async (req, res) => {
 
 
 });
+
+
 app.get('/tasks', async (req, res) => {
     try {
         const tasks = await Task.find();
@@ -50,6 +53,7 @@ app.get('/tasks', async (req, res) => {
 
 });
 
+
 app.get('/tasks/:id', async (req, res) => {
     try {
         const task = await Task.findById(req.params.id);
@@ -58,21 +62,43 @@ app.get('/tasks/:id', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch task' });
     }
-    app.put('/tasks/:id', async (req, res) => {
-        try {
-            const { title, description, status } = req.body;
-            const updatedTask = await Task.findByIdAndUpdate(
-                req.params.id,
-                { title, description, status },
-                { new: true, runValidators: true }
-            );
-            if (!updatedTask) return res.status(404).json({ error: 'Task not found' });
-            res.json(updatedTask);
-        } catch (error) {
-            res.status(400).json({ error: 'Failed to update task' });
-        }
-    });
 });
+
+
+// app.put('/tasks/:id', async (req, res) => {
+//     try {
+//         const { title, description, status } = req.body;
+//         const updatedTask = await Task.findByIdAndUpdate(
+//             req.params.id,
+//             { title, description, status },
+//             { new: true, runValidators: true }
+//         );
+//         if (!updatedTask) return res.status(404).json({ error: 'Task not found' });
+//         res.json(updatedTask);
+//     } catch (error) {
+//         res.status(400).json({ error: 'Failed to update task' });
+//     }
+// });
+
+
+app.put('/tasks/:id', async (req, res) => {
+    try {
+        const { title, description, status } = req.body;
+        const updatedTask = await Task.findByIdAndUpdate(
+            req.params.id,
+            { title, description, status },
+            { new: true, runValidators: true }
+        );
+        if (!updatedTask) {
+            return res.status(404).json({ error: 'Task not found' });
+
+        }
+        res.json(updatedTask);
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to update task' });
+    }
+});
+
 app.delete('/tasks/:id', async (req, res) => {
     try {
         const deletedTask = await Task.findByIdAndDelete(req.params.id);
