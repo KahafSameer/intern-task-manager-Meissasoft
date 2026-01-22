@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/KahafSameer/intern-task-manager-Meissasoft#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^5.2.1",
     "mongoose": "^9.1.5"
   }
